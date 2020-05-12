@@ -114,22 +114,22 @@ spec:
           - AWS_SECRET_ACCESS_KEY: "$(S3_SECRET_KEY)"
     - metadata:
         name: bigdata
-        spec:
-          accessModes: [ "ReadWrite" ]
-          bucketClassName: "s3-class"
-          env:
-            - BIGDATA_BUCKET: "$(S3_BUCKET)"
-            - COMPLICATED_ENV_BAR: "https://$(S3_BUCKET).$(S3_HOST_NAME)"
+      spec:
+        accessModes: [ "ReadWrite" ]
+        bucketClassName: "s3-class"
+        env:
+          - BIGDATA_BUCKET: "$(S3_BUCKET)"
+          - COMPLICATED_ENV_BAR: "https://$(S3_BUCKET).$(S3_HOST_NAME)"
     - metadata:
         name: backups
-        spec:
-          accessModes: [ "ReadWrite" ]
-          bucketClassName: "gcs-class"
-          env:
-            - BACKUPS_ENDPOINT: "$(GCS_HOST_NAME)"
-            - BACKUPS_BUCKET: "$(GCS_CONTAINER)"
-            - BACKUPS_ACCESS: "$(GCS_ACCESS_KEY)"
-            - BACKUPS_SECRET: "$(GCS_SECRET_KEY)"
-          certs:
-            - GCS_SA_JSON: /app/certs/
+      spec:
+        accessModes: [ "ReadWrite" ]
+        bucketClassName: "gcs-class"
+        env:
+          - BACKUPS_ENDPOINT: "$(GCS_HOST_NAME)"
+          - BACKUPS_BUCKET: "$(GCS_CONTAINER)"
+          - BACKUPS_ACCESS: "$(GCS_ACCESS_KEY)"
+          - BACKUPS_SECRET: "$(GCS_SECRET_KEY)"
+        certs:
+          - GCS_SA_JSON: /app/certs/
 ```
