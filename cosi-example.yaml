@@ -27,7 +27,7 @@ spec:
             - S3_SECRET: 'S3_SECRET_KEY'
           ports:
             - containerPort: 80
-  bucketBindTemplates:
+  bucketClaimTemplates:
     - metadata:
         name: logs
       spec:

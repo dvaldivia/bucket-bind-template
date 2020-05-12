@@ -1,4 +1,4 @@
-# BucketBindTemplate
+# BucketClaimTemplate
 
 ## Summary
 This is a proposal to enhance the existing Container Object Storage Interface (COSI) specification that focus on the aspect of how buckets get binded to a Pod. We wanted to mimic some of the features of Container Storage Interface (CSI) and allow Application Developers (User's) to have control of how the needed elements to connecting to an Object Storage Backend get injected into the Pod fo his application,If the desired bucket or protocol cannot be satisfied by COSI, the Pod should become unschedulable until this is resolved. 
@@ -14,7 +14,7 @@ Each application needs different parameters to connect to a certain Object Stora
  * To simplify secret management and configuration
  
 # Vocabulary
- * BucketBindTemplate - a proposed enhacement to the Pod Resource Definition on Kubernetes.
+ * BucketClaimTemplate - a proposed enhacement to the Pod Resource Definition on Kubernetes.
  
  # Proposal
  We propose the addition of a block on Pod definition that would allow developers to define what type of Object Storage they are expecting (S3, GCS, Azure, etc.) and how they are expecting it in their applications, this assumes that the majority of applications are designed to have Object Storage paramters passed via environment variables. We also want to address that some Object Storage backends have SDKs that require files to be present somewhere in the system, for example GCS expect it's `service-account.json` file to be present on a given route.
@@ -28,13 +28,13 @@ Each application needs different parameters to connect to a certain Object Stora
 In case his requirements cannot be satisfies, the Pod should become unschedulable which should hint the Adminsitrator to act to satisfy the bucket requirements either by adding the needed `Bucket` or `BucketClass` or by changing the Pod definition to match what the infrastructure is offering.
  
 # CRD Enhancement
-*BucketBindTemplate*
+*BucketClaimTemplate*
 This is a proposed addition to the Pod CRD to support COSI. A predefined set of variables can be used per protocol for the developer to connect to it's desired environment variables, we also leverage this protocol-specific variables to allow for files to be mounted on specific paths.
 
 Enough information regarding the object storage needs should be exposed for the COSI controller to decide to satisfy or not.
 
 ```yaml
-bucketBindTemplates:
+bucketClaimTemplates:
 - metadata:
     name: logs [1]
   spec:
@@ -101,7 +101,7 @@ spec:
           image: spark:2.4.5
           ports:
             - containerPort: 80
-  bucketBindTemplates:
+  bucketClaimTemplates:
     - metadata:
         name: logs
       spec:

@@ -1,0 +1,38 @@
+apiVersion: miniooperator.min.io/v1beta1
+kind: MirrorInstance
+metadata:
+  name: minio
+spec:
+  selector:
+    matchLabels:
+      app: mc
+  metadata:
+    labels:
+      app: mc
+  image: minio/mc:RELEASE.2020-04-25T00-43-23Z
+  env:
+    - name: MC_HOST_source
+      value: "https://Q3AM3UQ867SPQQA43P2F:zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG@play.min.io"
+    - name: MC_HOST_target
+      value: "https://Q3AM3UQ867SPQQA43P2F:zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG@play.min.io"
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 250m
+  bucketClaimTemplates:
+    - metadata:
+        name: logs
+      spec:
+        accessModes: [ "WriteOnly" ]
+        bucketClassName: "s3-class"
+        env:
+          - MC_HOST_source: "https://$(S3_ACCESS_KEY):$(S3_SECRET_KEY)@$(S3_ENDPOINT)"
+          - MC_BUCKET_source: "source/$(S3_BUCKET)"
+    - metadata:
+        name: bigdata
+        spec:
+          accessModes: [ "ReadWrite" ]
+          bucketClassName: "s3-class"
+          env:
+            - MC_HOST_target: "https://$(S3_ACCESS_KEY):$(S3_SECRET_KEY)@$(S3_ENDPOINT)/$(S3_BUCKET)"
+            - MC_BUCKET_target: "target/$(S3_BUCKET)"
