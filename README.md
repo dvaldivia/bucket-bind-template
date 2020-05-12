@@ -63,6 +63,17 @@ bucketBindTemplates:
 8. Some SDKs expect certificates or files with connection information, the developer can specify the expected mount-point of such files
 9. The `BucketContent` the COSI runtime bound to the Pod
 
+### Example Protocol Variables
+A set of predefined variables is needed on a per-protocol basis that developers can use to map the desired values. We provide an example for `S3` but we understand other protocols may have additional or different variables.
+* **S3_ENDPOINT**: Location of the object storage
+* **S3_BUCKET**: Actual name of the bucket
+* **S3_REGION**: Bucket region
+* **S3_ACCESS_KEY**: Access key 
+* **S3_SECRET_KEY**: Secret key
+* **S3_HOST_NAME**: The hostname of the endpoint
+* **S3_USE_SSL**: Wether or not the endpoint uses SSL
+
+
 ## Example
 In this example, we suggest that the application developer is requesting 3 buckets from 2 different providers (S3 and GCS).
 
